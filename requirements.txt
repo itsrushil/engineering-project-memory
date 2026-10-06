@@ -1,0 +1,10 @@
+google-genai
+fastapi
+uvicorn[standard]
+gradio
+python-dotenv
+numpy
+pypdf
+requests
+python-multipart
+Pillow
