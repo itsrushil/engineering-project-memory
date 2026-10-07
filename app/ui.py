@@ -532,9 +532,13 @@ with gr.Blocks(
     )
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 7860))
+    os.environ["GRADIO_SERVER_NAME"] = "0.0.0.0"
+    os.environ["GRADIO_SERVER_PORT"] = str(port)
+
     demo.queue(max_size=20)
     demo.launch(
         server_name="0.0.0.0",
-        server_port=int(os.environ.get("PORT", 7860)),
+        server_port=port,
         css=CSS,
     )
