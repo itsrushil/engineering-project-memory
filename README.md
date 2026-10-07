@@ -186,3 +186,23 @@ Engineering Project Memory combines RAG, prompt engineering, multimodal AI and a
 The main goal is to make information inside a software project easier to find without manually searching through multiple files.
 Team
 Academic engineering project.
+## Screenshots
+
+### Main Interface
+
+The main dashboard provides access to project memory, GitHub ingestion, multimodal analysis and knowledge management.
+
+![Main Interface](screenshots/main_interface.jpeg)
+
+### GitHub Repository Ingestion
+
+Public GitHub repositories can be indexed and added to the project memory.
+
+![GitHub Ingestion](screenshots/github_ingestion.jpeg)
+
+### System Architecture
+
+The architecture shows the flow between the Gradio interface, FastAPI backend, AI agent, RAG pipeline, local vector store and Gemini.
+
+![System Architecture](screenshots/architecture.jpeg)
+
