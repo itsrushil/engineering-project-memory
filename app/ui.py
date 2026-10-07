@@ -1,6 +1,6 @@
 import time
 import io
-import requests
+import os
 import gradio as gr
 from pathlib import Path
 from google import genai
@@ -72,17 +72,19 @@ def github(url):
         return "Enter a public GitHub repository URL first."
 
     try:
-        response = requests.post(
-            "http://127.0.0.1:8000/ingest/github",
-            json={"repo_url": url.strip()},
-            timeout=120,
-        )
-        if response.ok:
-            return f"### Repository indexed\n\n**{response.json()['chunks_added']} chunks** were added to project memory."
-        return f"GitHub ingestion failed:\n\n`{response.text}`"
-    except Exception as e:
-        return f"GitHub ingestion error:\n\n`{e}`"
+        from .ingest import ingest_github
+        from .vector_store import VectorStore
 
+        chunks = ingest_github(url.strip())
+        VectorStore().add(chunks)
+
+        return (
+            f"### Repository indexed\n\n"
+            f"**{len(chunks)} chunks** were added to project memory."
+        )
+
+    except Exception as e:
+        return f"GitHub ingestion failed:\n\n`{e}`"
 
 def image_ai(image):
     if image is None:
@@ -529,7 +531,10 @@ with gr.Blocks(
         "</div>"
     )
 
-
 if __name__ == "__main__":
     demo.queue(max_size=20)
-    demo.launch(css=CSS)
+    demo.launch(
+        server_name="0.0.0.0",
+        server_port=int(os.environ.get("PORT", 7860)),
+        css=CSS,
+    )
